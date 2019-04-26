@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import static java.lang.System.in;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,51 +21,40 @@ import java.util.logging.Logger;
  */
 public class server implements Runnable 
 {
-    private final Socket clientSocket;
-            
-    public server(Socket clientSocket)
-    {
-        this.clientSocket = clientSocket;
+    private final int port;
+    private ArrayList<user> usersList = new ArrayList<>();
     
+    public server(int port)
+    {
+        this.port = port;
+        
     }
     @Override
     public void run() 
     {
+        
         try 
         {
-           OutputStream outputStream = clientSocket.getOutputStream();
-           InputStream inputStream = clientSocket.getInputStream();
-
-           BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-           
-           String line;
-           
+            
+           ServerSocket serverSocket = new ServerSocket(port);
            while(true)
            {
-               line = reader.readLine();
-               
-               if( line != null)
-               {
-                   if("quit".equalsIgnoreCase(line))
-                   {
-                       break;
-                   }
-                   else
-                   {
-                       
-                   }
-               
-               }
-           
+                
+                // When a new user connects to the server
+                //, we add him to the list so we can keep track of him.
+                Socket clientSocket = serverSocket.accept();   
+                user User = new user(clientSocket, this);
+                usersList.add(User);
+                
+                
+                Thread t = new Thread(User);
+                t.start();
            }
-           
-            clientSocket.close();
         } 
         
         catch (IOException ex) 
         {
             Logger.getLogger(server.class.getName()).log(Level.SEVERE, null, ex);
-            
         }
     }
     
