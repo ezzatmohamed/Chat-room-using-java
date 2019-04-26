@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import static java.lang.System.in;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -28,28 +30,41 @@ public class server implements Runnable
     @Override
     public void run() 
     {
-        System.out.println("fff\n");
-        
-        
         try 
         {
-            
-            OutputStream outputStream = clientSocket.getOutputStream();
-            for ( int i =0; i < 10 ; i++)
-            {
-                outputStream.write(("Hello "+i+"\n").getBytes());
-                Thread.sleep(1000);
-            }            
+           OutputStream outputStream = clientSocket.getOutputStream();
+           InputStream inputStream = clientSocket.getInputStream();
+
+           BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+           
+           String line;
+           
+           while(true)
+           {
+               line = reader.readLine();
+               
+               if( line != null)
+               {
+                   if("quit".equalsIgnoreCase(line))
+                   {
+                       break;
+                   }
+                   else
+                   {
+                       
+                   }
+               
+               }
+           
+           }
+           
             clientSocket.close();
         } 
-        
         
         catch (IOException ex) 
         {
             Logger.getLogger(server.class.getName()).log(Level.SEVERE, null, ex);
             
-        } catch (InterruptedException ex) {
-            Logger.getLogger(server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
