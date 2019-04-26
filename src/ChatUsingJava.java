@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chat.using.java;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -14,8 +13,11 @@ import java.net.Socket;
  *
  * @author root
  */
-public class server {
-    
+public class ChatUsingJava {
+
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String[] args)
     {
         int port = 1002;
@@ -25,10 +27,8 @@ public class server {
             while(true)
             {
                 Socket clientSocket = serverSocket.accept();
-                OutputStream outputStream = clientSocket.getOutputStream();
-                outputStream.write("Hello\n".getBytes());
-                clientSocket.close();
-                
+                Thread t = new Thread(new server(clientSocket));
+                t.start();
             }   
             
         }
@@ -36,7 +36,6 @@ public class server {
         {
             System.out.println("fuck");
         }
-        
     }
     
 }
