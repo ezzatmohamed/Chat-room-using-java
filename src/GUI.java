@@ -19,12 +19,15 @@ public class GUI extends javax.swing.JFrame {
     /**
      * Creates new form GUI
      */
-    private user u;
+    //private user u;
     
-    public GUI() throws IOException {
-        
-        Socket socket = new Socket("localhost",1002); 
+    public GUI() throws IOException 
+    {
         initComponents();
+    }
+    public void SetUser(Socket clientSocket,server s)
+    {
+        
     }
 
     /**

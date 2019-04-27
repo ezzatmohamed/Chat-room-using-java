@@ -27,7 +27,7 @@ enum states
     LOGIN, MENU, PUBLIC,ONLINE_LIST,CHAT_PRIVATE; 
 } 
 
-public class user implements Runnable {
+public class user  implements Runnable {
     
     private server s;
     private Socket clientSocket;
@@ -52,24 +52,27 @@ public class user implements Runnable {
            state = states.LOGIN;
            
     }
-    
+        
     public void login() throws IOException
     {
         System.out.println("user.login()\n");
         
         
-        outputStream.write("Username : ".getBytes());
+        //outputStream.write("Username : ".getBytes());
         username = reader.readLine();
            
         outputStream.write(("You are logged now as " + username+ "\n").getBytes());
-        for (user u : s.GetUserList() ) 
+        
+        System.out.println("you are now logged as " + username);
+        
+        /*for (user u : s.GetUserList() ) 
         {
             if( u != this)
                 u.outputStream.write(("A new user logged as " + username+ "\n").getBytes());
-        }
+        }*/
         
         state = states.MENU;
-        outputStream.write("\n\n1)Public\n2)Online Users\n3)Logout\n\n".getBytes());
+        //  outputStream.write("\n\n1)Public\n2)Online Users\n3)Logout\n\n".getBytes());
                    
     }
     public void logout() throws IOException
@@ -101,11 +104,16 @@ public class user implements Runnable {
            {
                
                if( state == states.LOGIN)
+               {
+                   System.out.println("logging");
+                  
                    login();
-               
+               }
                else if( state == states.MENU)
                {
-                   line = reader.readLine();
+                   state = states.PUBLIC;
+                   
+                   /*line = reader.readLine();
                    
                    if("public".equalsIgnoreCase(line))
                    {
@@ -134,13 +142,16 @@ public class user implements Runnable {
                    {
                        outputStream.write("invalid input ! \n\n".getBytes());
                    
-                   }
+                   }*/
                }
                else if ( state == states.PUBLIC)
                {
-                   System.out.println("publicc");
+                   System.out.println("Public Chat");
+                   
                    line = reader.readLine();
                    
+                   System.out.println(line);
+                   System.err.println("input");
                    
                    if("#back".equalsIgnoreCase(line))
                    {
@@ -152,11 +163,12 @@ public class user implements Runnable {
                    {
                        for ( user u : s.GetUserList())
                        {
-                           u.outputStream.write((line+"\n").getBytes());
+                           u.outputStream.write((this.username+" : "+line+"\n").getBytes());
                            
                        }
                    }
                }
+               /*
                else if( state == states.ONLINE_LIST)
                {
                    line = reader.readLine();
@@ -166,7 +178,7 @@ public class user implements Runnable {
                        state = states.MENU;
                        outputStream.write("\n1)Public\n2)Online Users\n3)Logout".getBytes());
                   }
-               }
+               }*/
            
            }
           // clientSocket.close();
