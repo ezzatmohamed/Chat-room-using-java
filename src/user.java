@@ -27,17 +27,26 @@ enum states
     LOGIN, MENU, PUBLIC,ONLINE_LIST,CHAT_PRIVATE; 
 } 
 
-public class user  implements Runnable {
+public class user implements Runnable {
     
-    private server s;
+    private server s; 
+    
+    // the socket that the user is conncted from.
     private Socket clientSocket;
+    
+    // needed objects for sending and recieveing.
     private final BufferedReader reader;
     private final OutputStream outputStream;
     
+    // Every user has an username
     private String username;
     
+   
+    // State machine to determine if he's supposed to login or chat in public or ..etc.  
     private states state;
     
+    
+    // needed initialization in the constructor
     public user(Socket clientSocket ,server s) throws IOException
     {
            // To get outputs and send inputs
@@ -55,15 +64,13 @@ public class user  implements Runnable {
         
     public void login() throws IOException
     {
-        System.out.println("user.login()\n");
-        
-        
-        //outputStream.write("Username : ".getBytes());
+        // waiting for entering a username from the client
         username = reader.readLine();
-           
+        
+        
         outputStream.write(("You are logged now as " + username+ "\n").getBytes());
         
-        System.out.println("you are now logged as " + username);
+        System.out.println("a new user is online :  " + username);
         
         /*for (user u : s.GetUserList() ) 
         {
@@ -71,14 +78,16 @@ public class user  implements Runnable {
                 u.outputStream.write(("A new user logged as " + username+ "\n").getBytes());
         }*/
         
-        state = states.MENU;
-        //  outputStream.write("\n\n1)Public\n2)Online Users\n3)Logout\n\n".getBytes());
+        // now he's logged in. So he's redirected to Public Chat.
+        state = states.PUBLIC;
                    
     }
+    
     public void logout() throws IOException
     {
         System.out.println("user.logout()");
-        
+    
+        // When he logs out we remove him from the users list
         s.GetUserList().remove(this);
         clientSocket.close();
         
@@ -86,8 +95,6 @@ public class user  implements Runnable {
     
     public String GetUsername()
     {
-        System.out.println("user.GetUsername()");
-        
         return username;
     }
     
@@ -95,25 +102,46 @@ public class user  implements Runnable {
     @Override
     public void run()
     {
-        System.out.println("user.run()");
         try
         {
            String line;
-           
            while(true)
            {
                
                if( state == states.LOGIN)
                {
-                   System.out.println("logging");
-                  
                    login();
                }
+              
+               else if ( state == states.PUBLIC)
+               {
+                   
+                   // Recieve an input from user to chat with others
+                   line = reader.readLine();
+     
+                   
+                   if("#back".equalsIgnoreCase(line))
+                   {
+                       state = states.MENU;
+                       outputStream.write("\n1)Public\n2)Online Users\n3)Logout\n\n".getBytes());
+                       
+                   }
+                   else
+                   {
+                       // when the user write an input, we want to send it to every user in the user list
+                       for ( user u : s.GetUserList())
+                       {
+                           u.outputStream.write((this.username+" : "+line+"\n").getBytes());
+                           
+                       }
+                   }
+               }
+               /*
                else if( state == states.MENU)
                {
                    state = states.PUBLIC;
                    
-                   /*line = reader.readLine();
+                   line = reader.readLine();
                    
                    if("public".equalsIgnoreCase(line))
                    {
@@ -142,32 +170,9 @@ public class user  implements Runnable {
                    {
                        outputStream.write("invalid input ! \n\n".getBytes());
                    
-                   }*/
-               }
-               else if ( state == states.PUBLIC)
-               {
-                   System.out.println("Public Chat");
-                   
-                   line = reader.readLine();
-                   
-                   System.out.println(line);
-                   System.err.println("input");
-                   
-                   if("#back".equalsIgnoreCase(line))
-                   {
-                       state = states.MENU;
-                       outputStream.write("\n1)Public\n2)Online Users\n3)Logout\n\n".getBytes());
-                       
-                   }
-                   else
-                   {
-                       for ( user u : s.GetUserList())
-                       {
-                           u.outputStream.write((this.username+" : "+line+"\n").getBytes());
-                           
-                       }
                    }
                }
+               */
                /*
                else if( state == states.ONLINE_LIST)
                {

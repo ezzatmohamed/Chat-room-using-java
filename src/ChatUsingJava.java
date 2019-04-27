@@ -24,7 +24,6 @@ public class ChatUsingJava {
         int port = 1002;
         Thread t1 = new Thread(new server(port));
         t1.start();
-  
     }
     
 }

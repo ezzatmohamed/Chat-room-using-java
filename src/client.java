@@ -29,13 +29,15 @@ public class client {
 
     public client(String servername,int port)
     {
-        
         this.servername = servername;
         this.port = port;
         
     }
+    
+    
     public static void main(String[] args) throws IOException
     {
+        // first thing we create a new client
         client c = new client("localhost",1002);
         c.connect();
        
@@ -45,18 +47,27 @@ public class client {
     {
         try
         {
+            // connect the client to the server 
             socket = new Socket(servername,port);
+            
+            // "ServerOut" for sending to the server 
+            // "buffer" for recieveing from the server
+            
             this.serverOut = socket.getOutputStream();
             this.serverIN = socket.getInputStream();
             this.buffer = new BufferedReader(new InputStreamReader(serverIN));
+            
+            
             System.out.println("client.connect() success");
             
             
+            
+            // Log in
             Scanner scan = new Scanner(System.in);
-            
             String name = scan.nextLine();
-            
             login(name);
+            
+            // now i am a user. i should be able to read and write messages
             
             StartApp();
             
@@ -85,7 +96,10 @@ public class client {
 
     private void StartApp() throws IOException 
     {
-            
+            // I should be able to read and write messages concurrently.
+            // So we make a thread for reading and another for writing.
+        
+        
             // A thread to send message to others
             Thread MsgSend = new Thread( new MessageSender(serverOut) );
             MsgSend.start();
