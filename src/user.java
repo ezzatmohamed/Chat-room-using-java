@@ -24,11 +24,18 @@ public class user implements Runnable {
     
     private server s;
     private Socket clientSocket;
+    private BufferedReader reader;
+    private OutputStream outputStream;
     
     
-    public user(Socket clientSocket ,server s)
+    public user(Socket clientSocket ,server s) throws IOException
     {
-    
+           // To get outputs and send inputs
+           outputStream = clientSocket.getOutputStream();
+           InputStream inputStream = clientSocket.getInputStream();
+           reader = new BufferedReader(new InputStreamReader(inputStream));
+           //--------------------------------------------------------
+           
     }
 
     @Override
@@ -36,12 +43,7 @@ public class user implements Runnable {
     {
         try
         {
-           // To get outputs and send inputs
-           OutputStream outputStream = clientSocket.getOutputStream();
-           InputStream inputStream = clientSocket.getInputStream();
-           BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-           //--------------------------------------------------------
-           
+  
            String line;
            
            while(true)

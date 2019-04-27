@@ -21,21 +21,9 @@ public class ChatUsingJava {
     public static void main(String[] args)
     {
         int port = 1002;
-        try
-        {
-            ServerSocket serverSocket = new ServerSocket(port);
-            while(true)
-            {
-                Socket clientSocket = serverSocket.accept();
-                Thread t = new Thread(new server(clientSocket));
-                t.start();
-            }   
-            
-        }
-        catch(Exception e)
-        {
-            System.out.println("fuck");
-        }
+        Thread t1 = new Thread(new server(port));
+        t1.start();
+  
     }
     
 }
