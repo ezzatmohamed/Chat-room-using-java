@@ -29,6 +29,12 @@ public class server implements Runnable
         this.port = port;
         
     }
+    
+    public ArrayList<user> GetUserList()
+    {
+        return usersList;
+    }
+    
     @Override
     public void run() 
     {
@@ -43,12 +49,15 @@ public class server implements Runnable
                 // When a new user connects to the server
                 //, we add him to the list so we can keep track of him.
                 Socket clientSocket = serverSocket.accept();   
+                
+                System.out.println("server.run() accepted "+clientSocket.getPort());
+                
                 user User = new user(clientSocket, this);
                 usersList.add(User);
                 
-                
                 Thread t = new Thread(User);
                 t.start();
+                
            }
         } 
         

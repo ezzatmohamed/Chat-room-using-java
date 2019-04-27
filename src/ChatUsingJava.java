@@ -20,6 +20,7 @@ public class ChatUsingJava {
      */
     public static void main(String[] args)
     {
+        
         int port = 1002;
         Thread t1 = new Thread(new server(port));
         t1.start();
