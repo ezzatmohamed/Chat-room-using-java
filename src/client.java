@@ -94,7 +94,7 @@ public class client {
             Thread MsgReader = new Thread( new MessageReader(buffer) );
             MsgReader.start();
             //=============================================
-         
+            
     }
     public void SendMsg(String Msg) throws IOException
     {

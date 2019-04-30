@@ -6,8 +6,10 @@
 
 /**
  *
+ * 
  * @author root
  */
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +47,8 @@ public class user implements Runnable {
     // State machine to determine if he's supposed to login or chat in public or ..etc.  
     private states state;
     
+    public boolean pub = false;
+    
     
     // needed initialization in the constructor
     public user(Socket clientSocket ,server s) throws IOException
@@ -59,7 +63,6 @@ public class user implements Runnable {
            this.clientSocket = clientSocket;
            
            state = states.LOGIN;
-           
     }
         
     public void login() throws IOException
@@ -106,16 +109,36 @@ public class user implements Runnable {
                {
                    login();
                }
-              
+               else if( state == states.MENU)
+               {
+                   pub = false;
+                   
+                   String OnlineUsers = "";
+                   
+                   for( user u : s.GetUserList() )
+                   {
+                       if( u != this)
+                           OnlineUsers +=u.GetUsername() + ':';
+                   }
+                   
+                   outputStream.write(OnlineUsers.getBytes());
+               
+               }
                else if ( state == states.PUBLIC)
                {
+                   pub = true;
                    
                    // Recieve an input from user to chat with others
                    line = reader.readLine();
                    
+                   if("#MainMenu".equalsIgnoreCase(line))
+                   {
+                       state = states.MENU;
+                   }
                    for ( user u : s.GetUserList())
                    {
-                        u.outputStream.write((this.username+" : "+line+"\n").getBytes());
+                       if( u.pub)
+                           u.outputStream.write((this.username+" : "+line+"\n").getBytes());
                            
                    }
                

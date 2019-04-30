@@ -34,10 +34,10 @@ public class MessageReader implements Runnable
             while(true)
             {
                 String response = buffer.readLine();
-           //     GUI.setText2(response+"\n");
-             //   GUI.ShowPubMsg(reponse);
-             
+                
+                
                 GUI.ShowPubMsg(response);
+                
                 System.out.println(response);
                 
             }

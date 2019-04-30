@@ -14,6 +14,8 @@ import java.util.logging.Logger;
  *
  * @author root
  */
+
+
 public class gui extends javax.swing.JFrame {
 
     /**
@@ -40,6 +42,7 @@ public class gui extends javax.swing.JFrame {
         F2 = new Frame2(c);
         F3 = new Frame3(c);
         F4 = new Frame4(c);
+        
         F1.setVisible(true);
         
     }
@@ -143,7 +146,7 @@ public class gui extends javax.swing.JFrame {
     public void SendMsg(String msg) throws IOException
     {
         
-            c.SendMsg(msg);
+        c.SendMsg(msg);
     
     }
     
