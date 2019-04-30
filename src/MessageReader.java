@@ -18,10 +18,11 @@ public class MessageReader implements Runnable
 {
 
     private final BufferedReader buffer;
-    
-    public MessageReader(BufferedReader buffer)
+    private gui GUI;
+    public MessageReader(BufferedReader buffer) throws IOException
     {
         this.buffer = buffer;
+        this.GUI =gui.GetInstance();
     }
 
     @Override
@@ -33,7 +34,12 @@ public class MessageReader implements Runnable
             while(true)
             {
                 String response = buffer.readLine();
+           //     GUI.setText2(response+"\n");
+             //   GUI.ShowPubMsg(reponse);
+             
+                GUI.ShowPubMsg(response);
                 System.out.println(response);
+                
             }
         } 
         catch (IOException ex) 

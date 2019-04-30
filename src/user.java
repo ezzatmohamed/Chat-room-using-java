@@ -72,13 +72,7 @@ public class user implements Runnable {
         
         System.out.println("a new user is online :  " + username);
         
-        /*for (user u : s.GetUserList() ) 
-        {
-            if( u != this)
-                u.outputStream.write(("A new user logged as " + username+ "\n").getBytes());
-        }*/
-        
-        // now he's logged in. So he's redirected to Public Chat.
+
         state = states.PUBLIC;
                    
     }
@@ -118,75 +112,17 @@ public class user implements Runnable {
                    
                    // Recieve an input from user to chat with others
                    line = reader.readLine();
-     
                    
-                   if("#back".equalsIgnoreCase(line))
+                   for ( user u : s.GetUserList())
                    {
-                       state = states.MENU;
-                       outputStream.write("\n1)Public\n2)Online Users\n3)Logout\n\n".getBytes());
-                       
-                   }
-                   else
-                   {
-                       // when the user write an input, we want to send it to every user in the user list
-                       for ( user u : s.GetUserList())
-                       {
-                           u.outputStream.write((this.username+" : "+line+"\n").getBytes());
+                        u.outputStream.write((this.username+" : "+line+"\n").getBytes());
                            
-                       }
                    }
+               
                }
-               /*
-               else if( state == states.MENU)
-               {
-                   state = states.PUBLIC;
-                   
-                   line = reader.readLine();
-                   
-                   if("public".equalsIgnoreCase(line))
-                   {
-                       state = states.PUBLIC;
-                       outputStream.write("\n\nWrite message to everyone !\n\n ".getBytes());
-                 
-                   }
-                   
-                   else if("online users".equalsIgnoreCase(line))
-                   {
-                       for (user u : s.GetUserList()) 
-                       {
-                           outputStream.write((u.GetUsername()+" is online\n\n").getBytes());
-                       }
-                       
-                       state = states.ONLINE_LIST;
-                   }
-                   
-                   else if("logout".equalsIgnoreCase(line))
-                   {
-                       state = states.LOGIN;
-                      // outputStream.write("1)Public\n2)Online Users\n3)Logout\n\n".getBytes());
-                       
-                   }
-                   else
-                   {
-                       outputStream.write("invalid input ! \n\n".getBytes());
-                   
-                   }
-               }
-               */
-               /*
-               else if( state == states.ONLINE_LIST)
-               {
-                   line = reader.readLine();
-                   
-                   if("#back".equalsIgnoreCase(line))
-                   {
-                       state = states.MENU;
-                       outputStream.write("\n1)Public\n2)Online Users\n3)Logout".getBytes());
-                  }
-               }*/
+            
            
            }
-          // clientSocket.close();
         }
         catch(Exception e)
         {}

@@ -26,11 +26,15 @@ public class client {
     private OutputStream serverOut;
     private InputStream serverIN;
     private BufferedReader buffer;
+    
+   // private gui GUI;
 
     public client(String servername,int port)
     {
         this.servername = servername;
         this.port = port;
+     //   GUI = new gui();
+      //  GUI.setVisible(true);
         
     }
     
@@ -38,12 +42,12 @@ public class client {
     public static void main(String[] args) throws IOException
     {
         // first thing we create a new client
-        client c = new client("localhost",1002);
-        c.connect();
+  //      client c = new client("localhost",1002);
+  //      c.connect();
        
     }
 
-    public void connect() throws IOException 
+    public void connect(String name) throws IOException 
     {
         try
         {
@@ -60,19 +64,8 @@ public class client {
             
             System.out.println("client.connect() success");
             
-            
-            
-            // Log in
-            Scanner scan = new Scanner(System.in);
-            String name = scan.nextLine();
             login(name);
-            
-            // now i am a user. i should be able to read and write messages
-            
             StartApp();
-            
-            while(true){}
-            
         }
         catch(Exception e)
         {
@@ -83,7 +76,7 @@ public class client {
     }
     
     
-    private void login(String username) throws IOException 
+    public void login(String username) throws IOException 
     {
         String cmd = username + "\n";
         
@@ -94,23 +87,21 @@ public class client {
         
     }    
 
-    private void StartApp() throws IOException 
+    public void StartApp() throws IOException 
     {
-            // I should be able to read and write messages concurrently.
-            // So we make a thread for reading and another for writing.
-        
-        
-            // A thread to send message to others
-            Thread MsgSend = new Thread( new MessageSender(serverOut) );
-            MsgSend.start();
-            //=============================================
-            
-            
+
             // A thread to read messages from other users
             Thread MsgReader = new Thread( new MessageReader(buffer) );
             MsgReader.start();
             //=============================================
          
     }
+    public void SendMsg(String Msg) throws IOException
+    {
+            String cmd = Msg + "\n";
+               // System.out.println("MessageSender.run()" + cmd);
+            serverOut.write(cmd.getBytes());
+    }
     
 }
+    
