@@ -1,4 +1,4 @@
-
+    
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -34,7 +34,6 @@ public class MessageReader implements Runnable
             while(true)
             {
                 String response = buffer.readLine();
-                
                 
                 GUI.ShowPubMsg(response);
                 

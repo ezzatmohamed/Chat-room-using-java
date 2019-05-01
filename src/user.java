@@ -65,6 +65,37 @@ public class user implements Runnable {
            state = states.HOME;
     }
         
+    public void signup() throws IOException
+    {
+        while (true)
+        {
+            // waiting for entering a username from the client
+            
+            String cmd = reader.readLine();
+            
+            if("#back".equalsIgnoreCase(cmd))
+            {
+                state = states.HOME;
+                System.out.println("returning to home !");        
+                return;
+            }
+            
+            username = cmd;
+            password = reader.readLine();
+      
+            if ( !s.DB.InsertUser(username, password) )
+            {
+                outputStream.write(("Invalid"+"\n").getBytes());
+                return;
+            }
+            else
+                break;
+        }
+        
+        outputStream.write(("You are registered now as " + username+ "\n").getBytes());
+        
+        state = states.HOME;
+    }
     public void login() throws IOException
     {
         
@@ -74,6 +105,15 @@ public class user implements Runnable {
             // waiting for entering a username from the client
             
             String cmd = reader.readLine();
+            
+            if("#back".equalsIgnoreCase(cmd))
+            {
+                state = states.HOME;
+                
+                System.out.println("returning to home !");
+                
+                return;
+            }
             
             username = cmd;
             password = reader.readLine();
@@ -125,11 +165,11 @@ public class user implements Runnable {
                {
                    String cmd = reader.readLine();
                    
-                   if( cmd.equalsIgnoreCase("signup"))
+                   if( cmd.equalsIgnoreCase("#signup"))
                    {
                        state =states.SIGNUP;
                    }
-                   else if(cmd.equalsIgnoreCase("login"))
+                   else if(cmd.equalsIgnoreCase("#login"))
                    {
                        state = states.LOGIN;
                    }               
@@ -137,6 +177,10 @@ public class user implements Runnable {
                else if( state == states.LOGIN)
                {
                    login();
+               }
+               else if( state == states.SIGNUP)
+               {
+                   signup();
                }
                else if( state == states.MENU)
                {
@@ -155,8 +199,7 @@ public class user implements Runnable {
                }
                else if ( state == states.PUBLIC)
                {
-                   pub = true;
-                   
+               
                    // Recieve an input from user to chat with others
                    line = reader.readLine();
                    
@@ -164,10 +207,10 @@ public class user implements Runnable {
                    {
                        state = states.MENU;
                    }
-                   for ( user u : s.GetUserList())
+                   for ( user u : s.GetUserList() )
                    {
-                       if( u.pub)
-                           u.outputStream.write((this.username+" : "+line+"\n").getBytes());
+                       System.err.println("msg to all :  " + line);
+                       u.outputStream.write((this.username+" : "+line+"\n").getBytes());
                            
                    }
                

@@ -1,5 +1,4 @@
 
-import java.awt.Event;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,17 +11,15 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author LENOVO
+ * @author root
  */
-public class Frame1 extends javax.swing.JFrame {
+public class Form6 extends javax.swing.JFrame {
 
     /**
-     * Creates new form Frame1
+     * Creates new form Form6
      */
-    public Frame1() {
+    public Form6() {
         initComponents();
-        
-        
     }
 
     /**
@@ -34,26 +31,14 @@ public class Frame1 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        login = new javax.swing.JButton();
         username = new javax.swing.JTextField();
         password = new javax.swing.JTextField();
         back_button = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        register = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setFont(new java.awt.Font("Book Antiqua", 3, 18)); // NOI18N
-        jLabel1.setText("Password");
-
-        login.setBackground(new java.awt.Color(255, 204, 204));
-        login.setFont(new java.awt.Font("Book Antiqua", 3, 14)); // NOI18N
-        login.setText("Log in");
-        login.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginActionPerformed(evt);
-            }
-        });
 
         username.setFont(new java.awt.Font("Book Antiqua", 0, 14)); // NOI18N
 
@@ -67,23 +52,34 @@ public class Frame1 extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Book Antiqua", 3, 18)); // NOI18N
+        jLabel1.setText("Password");
+
         jLabel2.setFont(new java.awt.Font("Book Antiqua", 3, 18)); // NOI18N
         jLabel2.setText("Username");
+
+        register.setBackground(new java.awt.Color(255, 204, 204));
+        register.setFont(new java.awt.Font("Book Antiqua", 3, 14)); // NOI18N
+        register.setText("Register");
+        register.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(256, 256, 256)
-                        .addComponent(login, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(244, 244, 244)
+                        .addComponent(register, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(back_button, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(back_button, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(200, 200, 200)
+                        .addGap(188, 188, 188)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -91,7 +87,7 @@ public class Frame1 extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(196, 196, 196))
+                .addContainerGap(244, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,41 +103,17 @@ public class Frame1 extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
-                .addComponent(login, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(register, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(128, 128, 128))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
-        // TODO add your handling code here:
-        String name = username.getText();
-        String pass = password.getText();
-        System.err.println(name);
+    private void back_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_back_buttonActionPerformed
+     
         try 
         {
-            
-            gui GUI = gui.GetInstance();
-            
-            if( GUI.Login(name,pass) )
-            {     
-                this.setVisible(false);
-                GUI.MainMenu(); 
-                System.out.println("successful login");
-           
-            }
-            else 
-                System.err.println("unsuccessful login !");
-            
-        } catch (IOException ex) {
-            Logger.getLogger(Frame1.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_loginActionPerformed
-
-    private void back_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_back_buttonActionPerformed
-        try {
-            // TODO add your handling code here:
             gui GUI = gui.GetInstance();
             GUI.SendMsg("#back");
             this.setVisible(false);
@@ -150,6 +122,28 @@ public class Frame1 extends javax.swing.JFrame {
             Logger.getLogger(Frame1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_back_buttonActionPerformed
+
+    private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
+        try {
+            // TODO add your handling code here:
+            String name = username.getText();
+            String pass = password.getText();
+            
+            gui GUI = gui.GetInstance();
+            
+            if( GUI.SignUp(name,pass) )
+            {
+                this.setVisible(false);
+                GUI.HomeForm();
+                System.out.println("successful registeration");
+                
+            }
+            else
+                System.err.println("unsuccessful registeration !");
+        } catch (IOException ex) {
+            Logger.getLogger(Form6.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_registerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -168,20 +162,20 @@ public class Frame1 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Frame1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form6.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Frame1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form6.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Frame1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form6.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Frame1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form6.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-              //  new Frame1().setVisible(true);
+                new Form6().setVisible(true);
             }
         });
     }
@@ -190,8 +184,8 @@ public class Frame1 extends javax.swing.JFrame {
     private javax.swing.JButton back_button;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JButton login;
     private javax.swing.JTextField password;
+    private javax.swing.JButton register;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }

@@ -31,6 +31,7 @@ public class gui extends javax.swing.JFrame {
     private Frame3 F3;
     private Frame4 F4;
     private Frame5 F5;
+    private Form6 F6;
     
     private gui() throws IOException 
     {
@@ -44,6 +45,7 @@ public class gui extends javax.swing.JFrame {
         F3 = new Frame3();
         F4 = new Frame4();
         F5 = new Frame5();
+        F6 = new Form6();
         
         F5.setVisible(true);
         c.connect();
@@ -87,6 +89,10 @@ public class gui extends javax.swing.JFrame {
     {
         F1.setVisible(true);
     }
+    public void SignForm()
+    {
+        F6.setVisible(true);
+    }
     public void PublicChatForm() throws IOException
     {
         F2.setVisible(true);
@@ -99,6 +105,7 @@ public class gui extends javax.swing.JFrame {
     {
         F4.setVisible(true);
     }
+    
     public void HomeForm()
     {
         F5.setVisible(true);
@@ -121,6 +128,11 @@ public class gui extends javax.swing.JFrame {
     {
             
         return c.login(username,password);
+    }
+    public boolean SignUp(String username,String password) throws IOException
+    {
+            
+        return c.signup(username,password);
     }
     
     

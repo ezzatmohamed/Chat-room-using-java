@@ -74,18 +74,20 @@ public class Dbconnect {
         
         return false;
     }
-    public void InsertUser(String username,String password)
+    public boolean InsertUser(String username,String password)
     {
         try
         {
         
             String query = "INSERT INTO users(username,password) VALUES(\""+username+"\",\""+password+"\")";
             st.executeUpdate(query);
+            return true;
           
         }
         catch(Exception e)
         {
             System.out.println("Error  "+e);
+            return false;
         }
     }
 

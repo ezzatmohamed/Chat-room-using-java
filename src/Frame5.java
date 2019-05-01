@@ -80,9 +80,12 @@ public class Frame5 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void login_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_login_buttonActionPerformed
-        try {
+        try 
+        {
             // TODO add your handling code here:
             gui GUI = gui.GetInstance();
+            
+            GUI.SendMsg("#login");
             this.setVisible(false); 
             GUI.LogForm();
         } catch (IOException ex) {
@@ -92,7 +95,16 @@ public class Frame5 extends javax.swing.JFrame {
     }//GEN-LAST:event_login_buttonActionPerformed
 
     private void sign_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sign_buttonActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            gui GUI = gui.GetInstance();
+            
+            GUI.SendMsg("#signup");
+            this.setVisible(false);
+            GUI.SignForm();
+        } catch (IOException ex) {
+            Logger.getLogger(Frame5.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_sign_buttonActionPerformed
 
     /**
