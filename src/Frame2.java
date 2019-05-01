@@ -18,11 +18,10 @@ public class Frame2 extends javax.swing.JFrame {
     /**
      * Creates new form Frame2
      */
-    private client c;
-    public Frame2(client c) {
+  
+    public Frame2() {
         
         initComponents();
-        this.c = c;
     }
 
     /**

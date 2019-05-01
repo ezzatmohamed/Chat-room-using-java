@@ -47,7 +47,7 @@ public class client {
        
     }
 
-    public void connect(String name) throws IOException 
+    public void connect() throws IOException 
     {
         try
         {
@@ -64,8 +64,7 @@ public class client {
             
             System.out.println("client.connect() success");
             
-            login(name);
-            StartApp();
+        //   login(name,password);
         }
         catch(Exception e)
         {
@@ -76,14 +75,22 @@ public class client {
     }
     
     
-    public void login(String username) throws IOException 
+    public boolean login(String username,String password) throws IOException 
     {
         String cmd = username + "\n";
+        serverOut.write(cmd.getBytes());
         
+        cmd = password +"\n";
         serverOut.write(cmd.getBytes());
         
         String response = buffer.readLine();
         System.out.println("Response : "+response);
+        
+        if("Invalid".equalsIgnoreCase(response))
+        {
+            return false;
+        }
+        return true;
         
     }    
 

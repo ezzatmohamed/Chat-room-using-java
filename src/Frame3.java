@@ -19,10 +19,10 @@ public class Frame3 extends javax.swing.JFrame {
     /**
      * Creates new form Frame3
      */
-    private client c;
-    public Frame3(client c) {
+  
+    public Frame3() {
         initComponents();
-        this.c = c;
+   
     
     }
 

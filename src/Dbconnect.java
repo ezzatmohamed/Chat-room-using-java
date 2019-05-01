@@ -47,36 +47,39 @@ public class Dbconnect {
         {
             System.out.println("Error  "+e);
         }
+        
+       
     }
     
-    public String getStudent(String username,String password)
+    public boolean getUser(String username,String password)
     {
     
-        try {
+        try 
+        {
             String res = "";
         
-            String query = "select username from user where name =\""+username+"\" and password =\""+password+"\"";
+            String query = "select * from users where username =\""+username+"\" and password =\""+password+"\"";
             rs = st.executeQuery(query);
-            
             while(rs.next())
             {
-                String User = rs.getString("name");
-                
-                return User;
+       
+                return true;
             }            
             
         }
         catch(Exception e)
-        {}
+        {
+             System.err.println("error connection ");
+        }
         
-        return null;
+        return false;
     }
     public void InsertUser(String username,String password)
     {
         try
         {
         
-            String query = "INSERT INTO user(username,password) VALUES(\""+username+"\",\""+password+"\")";
+            String query = "INSERT INTO users(username,password) VALUES(\""+username+"\",\""+password+"\")";
             st.executeUpdate(query);
           
         }

@@ -19,10 +19,9 @@ public class Frame1 extends javax.swing.JFrame {
     /**
      * Creates new form Frame1
      */
-    private client c;
-    public Frame1(client c) {
+    public Frame1() {
         initComponents();
-        this.c = c;
+        
         
     }
 
@@ -38,6 +37,7 @@ public class Frame1 extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         login = new javax.swing.JButton();
         username = new javax.swing.JTextField();
+        password = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,6 +55,8 @@ public class Frame1 extends javax.swing.JFrame {
 
         username.setFont(new java.awt.Font("Book Antiqua", 0, 14)); // NOI18N
 
+        password.setFont(new java.awt.Font("Book Antiqua", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -62,13 +64,15 @@ public class Frame1 extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(256, 256, 256)
+                        .addComponent(login, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(106, 106, 106)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(4, 4, 4)
-                        .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(256, 256, 256)
-                        .addComponent(login, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(196, 196, 196))
         );
         layout.setVerticalGroup(
@@ -80,7 +84,9 @@ public class Frame1 extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(55, 55, 55)
+                .addGap(3, 3, 3)
+                .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(login, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(128, 128, 128))
         );
@@ -91,18 +97,23 @@ public class Frame1 extends javax.swing.JFrame {
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
         // TODO add your handling code here:
         String name = username.getText();
-        
+        String pass = password.getText();
         System.err.println(name);
         try 
         {
-            System.err.println("successful login");
             
             gui GUI = gui.GetInstance();
             
-            GUI.Login(name);
-      
-            this.setVisible(false);
-            GUI.MainMenu();
+            if( GUI.Login(name,pass) )
+            {     
+                this.setVisible(false);
+                GUI.MainMenu(); 
+                System.out.println("successful login");
+           
+            }
+            else 
+                System.err.println("unsuccessful login !");
+            
         } catch (IOException ex) {
             Logger.getLogger(Frame1.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -146,6 +157,7 @@ public class Frame1 extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton login;
+    private javax.swing.JTextField password;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }

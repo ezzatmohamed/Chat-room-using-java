@@ -13,10 +13,10 @@ public class Frame4 extends javax.swing.JFrame {
     /**
      * Creates new form Frame4
      */
-    private client c;
-    public Frame4(client c) {
+
+    public Frame4() {
         initComponents();
-        this.c = c;
+    
     }
 
     /**

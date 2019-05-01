@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 
 enum states
 { 
-    LOGIN, MENU, PUBLIC,ONLINE_LIST,CHAT_PRIVATE; 
+    HOME,LOGIN,SIGNUP, MENU, PUBLIC,ONLINE_LIST,CHAT_PRIVATE; 
 } 
 
 public class user implements Runnable {
@@ -42,7 +42,7 @@ public class user implements Runnable {
     
     // Every user has an username
     private String username;
-    
+    private String password;
    
     // State machine to determine if he's supposed to login or chat in public or ..etc.  
     private states state;
@@ -62,18 +62,34 @@ public class user implements Runnable {
            this.s = s;
            this.clientSocket = clientSocket;
            
-           state = states.LOGIN;
+           state = states.HOME;
     }
         
     public void login() throws IOException
     {
-        // waiting for entering a username from the client
-        username = reader.readLine();
         
+        
+        while (true)
+        {
+            // waiting for entering a username from the client
+            
+            String cmd = reader.readLine();
+            
+            username = cmd;
+            password = reader.readLine();
+
+            if ( !s.DB.getUser(username, password) )
+            {
+                outputStream.write(("Invalid"+"\n").getBytes());
+                return;
+            }
+            else
+                break;
+        }
         
         outputStream.write(("You are logged now as " + username+ "\n").getBytes());
         
-        System.out.println("a new user is online :  " + username);
+        System.out.println("a new user is online :  " + username + " , password => " + password);
         
 
         state = states.PUBLIC;
@@ -105,7 +121,20 @@ public class user implements Runnable {
            while(true)
            {
                
-               if( state == states.LOGIN)
+               if( state == states.HOME)
+               {
+                   String cmd = reader.readLine();
+                   
+                   if( cmd.equalsIgnoreCase("signup"))
+                   {
+                       state =states.SIGNUP;
+                   }
+                   else if(cmd.equalsIgnoreCase("login"))
+                   {
+                       state = states.LOGIN;
+                   }               
+               }
+               else if( state == states.LOGIN)
                {
                    login();
                }

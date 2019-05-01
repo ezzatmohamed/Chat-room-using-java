@@ -30,6 +30,7 @@ public class gui extends javax.swing.JFrame {
     private Frame2 F2;
     private Frame3 F3;
     private Frame4 F4;
+    private Frame5 F5;
     
     private gui() throws IOException 
     {
@@ -38,13 +39,14 @@ public class gui extends javax.swing.JFrame {
         c = new client("localhost",1002);
         
         
-        F1 = new Frame1(c);
-        F2 = new Frame2(c);
-        F3 = new Frame3(c);
-        F4 = new Frame4(c);
+        F1 = new Frame1();
+        F2 = new Frame2();
+        F3 = new Frame3();
+        F4 = new Frame4();
+        F5 = new Frame5();
         
-        F1.setVisible(true);
-        
+        F5.setVisible(true);
+        c.connect();
     }
     public static gui GetInstance() throws IOException
     {
@@ -63,62 +65,17 @@ public class gui extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        text1 = new javax.swing.JTextField();
-        button1 = new javax.swing.JButton();
-        text2 = new javax.swing.JScrollPane();
-        text4 = new javax.swing.JTextArea();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        text1.setText("jTextField1");
-
-        button1.setText("jButton1");
-        button1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button1ActionPerformed(evt);
-            }
-        });
-
-        text4.setColumns(20);
-        text4.setRows(5);
-        text2.setViewportView(text4);
-
-        jScrollPane1.setViewportView(jTextPane1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(button1)
-                        .addGap(172, 172, 172))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(text2, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(114, 114, 114))))
+            .addGap(0, 180, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(text2, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(button1)
-                    .addComponent(text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(91, 91, 91))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addGap(58, 58, 58))
+            .addGap(0, 202, Short.MAX_VALUE)
         );
 
         pack();
@@ -142,6 +99,11 @@ public class gui extends javax.swing.JFrame {
     {
         F4.setVisible(true);
     }
+    public void HomeForm()
+    {
+        F5.setVisible(true);
+    
+    }
     
     public void SendMsg(String msg) throws IOException
     {
@@ -155,20 +117,13 @@ public class gui extends javax.swing.JFrame {
         F2.ShowMsg(msg);
         
     }
-    public void Login(String username) throws IOException
+    public boolean Login(String username,String password) throws IOException
     {
-    
-        c.connect(username);
-        
-        //c.login(username);
+            
+        return c.login(username,password);
     }
     
     
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-        
-        F1.setVisible(true);
-    }//GEN-LAST:event_button1ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -212,11 +167,5 @@ public class gui extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton button1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextPane jTextPane1;
-    private javax.swing.JTextField text1;
-    private javax.swing.JScrollPane text2;
-    private javax.swing.JTextArea text4;
     // End of variables declaration//GEN-END:variables
 }
