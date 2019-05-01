@@ -1,5 +1,6 @@
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -93,9 +94,11 @@ public class gui extends javax.swing.JFrame {
     {
         F6.setVisible(true);
     }
-    public void PublicChatForm() throws IOException
+    public void GroupChatForm(String title) throws IOException
     {
         F2.setVisible(true);
+        F2.SetTitle(title);
+        F2.ClearChat();
     }
     public void MainMenu()
     {
@@ -119,7 +122,20 @@ public class gui extends javax.swing.JFrame {
     
     }
     
-    public void ShowPubMsg(String msg)
+    public void GroupList(ArrayList<String> List)
+    {
+    
+        F3.GroupList(List);
+    
+    }
+    public void UserList(ArrayList<String> List)
+    {
+    
+        F3.UserList(List);
+    
+    }
+    
+    public void ShowMsg(String msg)
     {
         F2.ShowMsg(msg);
         

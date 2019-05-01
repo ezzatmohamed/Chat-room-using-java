@@ -23,6 +23,7 @@ public class server implements Runnable
 {
     private final int port;
     private ArrayList<user> usersList = new ArrayList<>();
+    private ArrayList<String> groupsList = new ArrayList<>();
     public Dbconnect DB = new Dbconnect();
     
     public server(int port)

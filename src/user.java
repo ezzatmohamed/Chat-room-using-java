@@ -18,6 +18,7 @@ import java.io.OutputStream;
 import static java.lang.System.in;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import static java.util.Collections.list;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -26,7 +27,7 @@ import java.util.logging.Logger;
 
 enum states
 { 
-    HOME,LOGIN,SIGNUP, MENU, PUBLIC,ONLINE_LIST,CHAT_PRIVATE; 
+    HOME,LOGIN,SIGNUP, MENU, PRIVATE,PUBLIC,GROUP,ONLINE_LIST,CHAT_PRIVATE; 
 } 
 
 public class user implements Runnable {
@@ -40,10 +41,14 @@ public class user implements Runnable {
     private final BufferedReader reader;
     private final OutputStream outputStream;
     
+    private ArrayList<String> chatList = new ArrayList<>();
+    
+    
     // Every user has an username
     private String username;
     private String password;
-   
+    private String group = null;
+    private String privateName = null ;
     // State machine to determine if he's supposed to login or chat in public or ..etc.  
     private states state;
     
@@ -64,7 +69,9 @@ public class user implements Runnable {
            
            state = states.HOME;
     }
-        
+       
+    public String getGroup(){ return group;}
+    public states getState(){ return state;}
     public void signup() throws IOException
     {
         while (true)
@@ -132,7 +139,7 @@ public class user implements Runnable {
         System.out.println("a new user is online :  " + username + " , password => " + password);
         
 
-        state = states.PUBLIC;
+        state = states.MENU;
                    
     }
     
@@ -141,7 +148,8 @@ public class user implements Runnable {
         System.out.println("user.logout()");
     
         // When he logs out we remove him from the users list
-        s.GetUserList().remove(this);            //       clientSocket.close();
+        s.GetUserList().remove(this);         
+        clientSocket.close();
         
     }
     
@@ -150,6 +158,30 @@ public class user implements Runnable {
         return username;
     }
     
+    public void AddToChatList(String name)
+    {
+        
+        for ( String u : chatList)
+        {
+            if( u.equals(name))
+            {
+               return;
+            }
+        }
+        chatList.add(name);
+
+        for( user u : s.GetUserList())
+        {
+            if( u.GetUsername().equals(name))
+            {
+                u.AddToChatList(this.GetUsername());
+            
+            }
+        
+        }
+    }
+    
+    public ArrayList<String> GetChatList(){return chatList;}
     
     @Override
     public void run()
@@ -183,23 +215,33 @@ public class user implements Runnable {
                }
                else if( state == states.MENU)
                {
-                   pub = false;
+                   // Sending Groups names to the user
+                   outputStream.write("#GroupChat\n".getBytes());
                    
-                   String OnlineUsers = "";
-                   
-                   for( user u : s.GetUserList() )
+                   for( String group : s.DB.getGroup() )
                    {
-                       if( u != this)
-                           OnlineUsers +=u.GetUsername() + ':';
+                       outputStream.write((group+'\n').getBytes());
+                       
                    }
+                   outputStream.write("#end\n".getBytes());
                    
-                   outputStream.write(OnlineUsers.getBytes());
-               
-               }
-               else if ( state == states.PUBLIC)
-               {
-               
-                   // Recieve an input from user to chat with others
+                   //========================================
+                   
+                   //Sending Online users names to the client
+                   outputStream.write("#OnlineUsers\n".getBytes());
+                   
+                   for(user u : s.GetUserList() )
+                   {
+                       if( u.GetUsername() != null && u != this )
+                           outputStream.write((u.GetUsername()+'\n').getBytes());
+                       
+                   }
+                   outputStream.write("#end\n".getBytes());
+                   
+                   //=========================================
+                   
+                   
+                   // Waiting for an action from the user
                    line = reader.readLine();
                    
                    if("#logout".equalsIgnoreCase(line))
@@ -207,16 +249,77 @@ public class user implements Runnable {
                        logout();
                        state = states.HOME;
                    }
-                   for ( user u : s.GetUserList() )
+                   
+                   else if("#CreateGroup".equalsIgnoreCase(line))
                    {
-                       System.err.println("msg to all :  " + line);
-                       u.outputStream.write((this.username+" : "+line+"\n").getBytes());
-                           
+                       String GroupName = reader.readLine();
+                       s.DB.InsertGroup(GroupName);
+                   }
+                   
+                   else if("#PrivateChat".equalsIgnoreCase(line))
+                   {
+                       state = states.PRIVATE;
+                       
+                       line = reader.readLine();
+                       
+                       AddToChatList(line);
+                       privateName = line;
+                   }
+                   else
+                   {
+                       state= states.GROUP;
+                       group = line;
                    }
                
                }
-            
-           
+               else if ( state == states.PRIVATE)
+               {
+                   line = reader.readLine();
+                   
+                   if("#back".equalsIgnoreCase(line))
+                   {
+                       state = states.MENU;
+                       continue;
+                   }
+                   
+                   for ( user u : s.GetUserList() )
+                   {
+                       if( u.getState() == states.PRIVATE && u.GetUsername().equals(privateName)  )
+                       {
+                           u.outputStream.write((this.username+" : "+line+"\n").getBytes()); 
+                           //System.out.println(u.GetUsername()+ " || " + u.getGroup()+ " || " + u.getState());
+                   
+                       }
+                       else
+                       {
+                           //System.err.println(u.GetUsername() + " || " + u.getGroup() + " || " + u.getState());
+                       }
+                   }
+               }
+               else if ( state == states.GROUP)
+               {
+                   // Recieve an input from user to chat with others
+                   line = reader.readLine();
+                   
+                   if("#back".equalsIgnoreCase(line))
+                   {
+                       state = states.MENU;
+                       continue;
+                   }
+                   for ( user u : s.GetUserList() )
+                   {
+                       if( u.getState() == states.GROUP && group.equals(u.getGroup())  )
+                       {
+                           u.outputStream.write((this.username+" : "+line+"\n").getBytes()); 
+                            System.out.println(u.GetUsername()+ " || " + u.getGroup()+ " || " + u.getState());
+                   
+                       }
+                       else
+                       {
+                           System.err.println(u.GetUsername() + " || " + u.getGroup() + " || " + u.getState());
+                       }
+                   }
+               }
            }
         }
         catch(Exception e)

@@ -1,6 +1,7 @@
     
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,7 +36,31 @@ public class MessageReader implements Runnable
             {
                 String response = buffer.readLine();
                 
-                GUI.ShowPubMsg(response);
+                if("#GroupChat".equalsIgnoreCase(response) )
+                {
+                    ArrayList<String> groupsList = new ArrayList<>();
+                    while(!"#end".equalsIgnoreCase(response = buffer.readLine()))
+                    {
+                        groupsList.add(response);
+                    }
+                    
+                    GUI.GroupList(groupsList);
+                    continue;
+                }
+                else if("#OnlineUsers".equalsIgnoreCase(response))
+                {
+                    ArrayList<String> userList = new ArrayList<>();
+                    while(!"#end".equalsIgnoreCase(response = buffer.readLine()))
+                    {
+                        userList.add(response);
+                    }
+                    
+                    GUI.UserList(userList);
+                    continue;
+                }
+                
+                
+                GUI.ShowMsg(response);
                 
                 System.out.println(response);
                 
