@@ -52,8 +52,7 @@ public class server implements Runnable
                 //, we add him to the list so we can keep track of him.
                 Socket clientSocket = serverSocket.accept();   
                 
-                System.out.println("server.run() accepted "+clientSocket.getPort());
-                
+               
                 user User = new user(clientSocket, this);
                 usersList.add(User);
                 
