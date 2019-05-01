@@ -141,8 +141,7 @@ public class user implements Runnable {
         System.out.println("user.logout()");
     
         // When he logs out we remove him from the users list
-        s.GetUserList().remove(this);
- //       clientSocket.close();
+        s.GetUserList().remove(this);            //       clientSocket.close();
         
     }
     
