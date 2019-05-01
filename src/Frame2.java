@@ -44,7 +44,6 @@ public class Frame2 extends javax.swing.JFrame {
 
         SendBox.setFont(new java.awt.Font("Book Antiqua", 2, 12)); // NOI18N
         SendBox.setForeground(new java.awt.Color(204, 204, 204));
-        SendBox.setText("Write a message");
         SendBox.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         SendBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

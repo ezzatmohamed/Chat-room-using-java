@@ -134,6 +134,10 @@ public class gui extends javax.swing.JFrame {
             
         return c.signup(username,password);
     }
+    public void Logout() throws IOException
+    {
+        c.logout();
+    }
     
     
     /**

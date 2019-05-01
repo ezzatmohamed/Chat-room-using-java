@@ -116,6 +116,10 @@ public class client {
         return true;
     
     }
+    public void logout() throws IOException
+    {
+      serverOut.write("#logout".getBytes());
+    }
 
     public void StartApp() throws IOException 
     {

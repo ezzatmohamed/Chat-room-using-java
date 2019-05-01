@@ -142,7 +142,7 @@ public class user implements Runnable {
     
         // When he logs out we remove him from the users list
         s.GetUserList().remove(this);
-        clientSocket.close();
+ //       clientSocket.close();
         
     }
     
@@ -203,9 +203,10 @@ public class user implements Runnable {
                    // Recieve an input from user to chat with others
                    line = reader.readLine();
                    
-                   if("#MainMenu".equalsIgnoreCase(line))
+                   if("#logout".equalsIgnoreCase(line))
                    {
-                       state = states.MENU;
+                       logout();
+                       state = states.HOME;
                    }
                    for ( user u : s.GetUserList() )
                    {
