@@ -41,7 +41,7 @@ public class user implements Runnable {
     private final BufferedReader reader;
     private final OutputStream outputStream;
     
-    private ArrayList<String> chatList = new ArrayList<>();
+    public ArrayList<String> chatList = new ArrayList<>();
     
     
     // Every user has an username
@@ -161,6 +161,7 @@ public class user implements Runnable {
     public void AddToChatList(String name)
     {
         
+         System.out.println("user.run() 1" );
         for ( String u : chatList)
         {
             if( u.equals(name))
@@ -168,17 +169,17 @@ public class user implements Runnable {
                return;
             }
         }
+        
         chatList.add(name);
-
+        System.out.println("user.run() 2" );
         for( user u : s.GetUserList())
         {
             if( u.GetUsername().equals(name))
             {
-                u.AddToChatList(this.GetUsername());
-            
+                u.chatList.add(username);
             }
-        
         }
+        System.out.println("user.run() 3" );
     }
     
     public ArrayList<String> GetChatList(){return chatList;}
@@ -260,9 +261,10 @@ public class user implements Runnable {
                    {
                        state = states.PRIVATE;
                        
+                     //  System.out.println("user.run() Private" );
                        line = reader.readLine();
-                       
-                       AddToChatList(line);
+                      // System.out.println("user.run() Private" + line);
+                      
                        privateName = line;
                    }
                    else
@@ -274,6 +276,7 @@ public class user implements Runnable {
                }
                else if ( state == states.PRIVATE)
                {
+                   System.out.println("user.run() private state");
                    line = reader.readLine();
                    
                    if("#back".equalsIgnoreCase(line))
@@ -286,15 +289,15 @@ public class user implements Runnable {
                    {
                        if( u.getState() == states.PRIVATE && u.GetUsername().equals(privateName)  )
                        {
-                           u.outputStream.write((this.username+" : "+line+"\n").getBytes()); 
-                           //System.out.println(u.GetUsername()+ " || " + u.getGroup()+ " || " + u.getState());
-                   
+                           u.outputStream.write((this.username+" : "+line+"\n").getBytes());
+                           
                        }
-                       else
-                       {
-                           //System.err.println(u.GetUsername() + " || " + u.getGroup() + " || " + u.getState());
-                       }
+                       else if ( u == this )
+                           u.outputStream.write((this.username+" : "+line+"\n").getBytes());
+                       System.err.println(privateName + " != " + u.GetUsername());
+                     
                    }
+                   System.out.println("user.run() private state2");
                }
                else if ( state == states.GROUP)
                {

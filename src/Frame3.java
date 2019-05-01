@@ -258,7 +258,7 @@ public class Frame3 extends javax.swing.JFrame {
             gui GUI = gui.GetInstance();
             GUI.Logout();
             this.setVisible(false);
-            GUI.HomeForm();            
+          //  GUI.HomeForm();            
             
         } catch (IOException ex) {
             Logger.getLogger(Frame3.class.getName()).log(Level.SEVERE, null, ex);
@@ -297,7 +297,7 @@ public class Frame3 extends javax.swing.JFrame {
             GUI.SendMsg(user);
             
             this.setVisible(false);
-            GUI.GroupChatForm("\" Chatting with "+ user +"\"");
+            GUI.GroupChatForm("\""+ user +"\"");
             
         } catch (IOException ex) {
             Logger.getLogger(Frame3.class.getName()).log(Level.SEVERE, null, ex);
